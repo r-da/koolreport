@@ -197,7 +197,7 @@ class PdoDataSource extends DataSource
 		$stm->execute();
 
 		$error = $stm->errorInfo();
-		if($error[2]!=null)
+		if($error[0]!='00000') // check again SQLSTATE error code
 		{
 			throw new \Exception("Query Error >> [".$error[2]."] >> $query");
 			return;
