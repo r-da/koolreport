@@ -83,7 +83,25 @@ class PostgreSQLDataSource extends DataSource
         }
         
     }
-    
+
+    /**
+     * set the schema for the database
+     *
+     * @param string $schema
+     * @return PostgreSQLDataSource This datasource object
+     */
+    public function setSchema($schema)
+    {
+        $query='SET search_path TO :schema';
+        $totalQuery = $this->bindParams($query, [':schema'=>$schema]);
+        $totalResult = pg_query($this->connection, $totalQuery);
+        if(! $totalResult) {
+            echo pg_last_error($this->connection);
+            exit;
+        }
+        return $this;
+    }
+	
     /**
      * Set the query and params
      * 
